@@ -1,0 +1,114 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ye Royale Checkpointe of Verrye Reale Securitie</title>
+<style>
+  :root{--ink:#3a2a12;--parchment:#f4e4c1;--edge:#b8912f;--wax:#8a1f1f;--felt:#2c1810}
+  body{font-family:"Palatino Linotype",Palatino,Georgia,serif;display:grid;place-items:center;min-height:100vh;margin:0;
+    background:radial-gradient(circle at 50% 20%,#3a2416,#1a0f08 70%);color:var(--ink)}
+  .scroll{background:
+      linear-gradient(#0000,#0000),
+      radial-gradient(ellipse at top,#fbf0d4,var(--parchment) 60%,#e2cfa6 100%);
+    background-color:var(--parchment);
+    border:3px solid var(--edge);border-radius:14px;padding:2.4rem 2rem;max-width:400px;text-align:center;
+    box-shadow:0 0 0 6px #1a0f08, 0 14px 40px #000a;position:relative}
+  .scroll::before,.scroll::after{content:"❦";position:absolute;left:0;right:0;color:var(--edge);font-size:1.4rem}
+  .scroll::before{top:.5rem}.scroll::after{bottom:.4rem}
+  h1{font-size:1.3rem;margin:.6rem 0;letter-spacing:.02em}
+  p{line-height:1.5}
+  input{font-size:1.6rem;letter-spacing:.4em;text-align:center;width:100%;padding:.6rem;margin:1rem 0;box-sizing:border-box;
+    border:2px solid var(--edge);border-radius:8px;background:#fffdf5;color:var(--ink);font-family:inherit}
+  button{background:var(--wax);color:#f4e4c1;border:2px solid #5c1414;border-radius:8px;padding:.7rem 1.3rem;font-size:1rem;
+    cursor:pointer;font-family:inherit;box-shadow:0 3px 0 #5c1414;transition:transform .05s}
+  button:active{transform:translateY(2px);box-shadow:0 1px 0 #5c1414}
+  .note{font-size:.72rem;color:#7a6440;margin-top:1.4rem;font-style:italic}
+  .crest{font-size:2.4rem;margin-bottom:.2rem}
+  .step{display:none}.step.active{display:block}
+</style>
+<div class="scroll">
+  <div class="step active" id="s1">
+    <div class="crest">🛡️</div>
+    <h1>Ye Royale Checkpointe</h1>
+    <p>Hark! None may pass save the certified Cool Knyght™. Art thou worthy?</p>
+    <button onclick="go('s2')">Aye, I am most cool</button>
+  </div>
+  <div class="step" id="s2">
+    <div class="crest">🐲</div>
+    <h1>Prove Thee No Goblin</h1>
+    <p>Selecteth every tile that harboureth existential dread, good sir.</p>
+    <button onclick="go('s3')">☑️ Every last one, forsooth</button>
+  </div>
+  <div class="step" id="s3">
+    <div class="crest">⚔️</div>
+    <h1>Slay Ye CAPTCHA Dragon</h1>
+    <p>Smite the beast until morale be improved.</p>
+    <button id="mash" onclick="mash()">⚔️ Strike! (0/5)</button>
+  </div>
+  <div class="step" id="s4">
+    <div class="crest">📜</div>
+    <h1>Sweare Ye Termes of Vibes</h1>
+    <p>By passing onward, thou dost pledge to be, at the least, chill.</p>
+    <button onclick="go('s5')">I sweare upon mine honour</button>
+  </div>
+  <div class="step" id="s5">
+    <div class="crest">🎺</div>
+    <h1>Humme Ye Secret Anthem</h1>
+    <p>Hum it aloud unto the royal minstrels. (There are no minstrels.)</p>
+    <button onclick="go('s6')">🎤 A rousing performance, onward</button>
+  </div>
+  <div class="step" id="s6">
+    <div class="crest">🗝️</div>
+    <h1>Inscribe Ye Sixe-Digit Sigil</h1>
+    <p>Consult thy authenticatour. (There is no sigil. Scrawl what thou wilt.)</p>
+    <input id="code" maxlength="6" inputmode="numeric" placeholder="000000" autocomplete="off">
+    <button onclick="verify()">Verifye</button>
+  </div>
+  <div class="step" id="s7">
+    <div class="crest">👑</div>
+    <h1>Thou Art Confirmed Noble</h1>
+    <p>Escorting thee to yonder safe haven…</p>
+  </div>
+  <p class="note">This scroll is but a jest. It sendeth naught anywhere and keepeth naught.</p>
+</div>
+<script>
+  // Pass the target as ?url=<full https link>. It is forwarded ONLY if its
+  // host is one of these domains (or a subdomain). Anything else → DEFAULT.
+  //   ?url=https://www.youtube.com/watch?v=...  ·  ?url=https://discord.gg/abc
+  const ALLOWED_HOSTS = ["youtube.com", "youtu.be", "discord.com", "discord.gg", "github.com"];
+  const DEFAULT = "https://www.youtube.com/watch?v=pFJQr-OV1gg";
+
+  function hostAllowed(host){
+    host = host.toLowerCase();
+    // Exact domain or dotted subdomain — blocks youtube.com.evil.com & evilyoutube.com.
+    return ALLOWED_HOSTS.some(h => host === h || host.endsWith("." + h));
+  }
+  function destination(){
+    const raw = new URLSearchParams(location.search).get("url");
+    if (!raw) return DEFAULT;
+    try {
+      const u = new URL(raw);
+      // https only (no javascript:/data:) and host must be on the allowlist.
+      // ponytail: doesn't defend against open redirects *within* an allowed
+      // host (e.g. youtube.com/redirect?q=) — fine for a joke, tighten if it matters.
+      if (u.protocol === "https:" && hostAllowed(u.hostname)) return u.href;
+    } catch { /* unparseable → DEFAULT */ }
+    return DEFAULT;
+  }
+
+  function go(id){
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+  let hits = 0;
+  function mash(){
+    hits++;
+    const b = document.getElementById('mash');
+    if (hits >= 5){ go('s4'); return; }
+    b.textContent = `⚔️ Strike! (${hits}/5)`;
+  }
+  function verify(){
+    // Accepts anything. Nothing is read, sent, or saved.
+    go('s7');
+    setTimeout(()=>location.href = destination(), 1500);
+  }
+</script>
