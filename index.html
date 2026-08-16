@@ -1,75 +1,174 @@
 <!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ye Royale Checkpointe of Verrye Reale Securitie</title>
+<title>The King's Checkpoint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  :root{--ink:#3a2a12;--parchment:#f4e4c1;--edge:#b8912f;--wax:#8a1f1f;--felt:#2c1810}
-  body{font-family:"Palatino Linotype",Palatino,Georgia,serif;display:grid;place-items:center;min-height:100vh;margin:0;
-    background:radial-gradient(circle at 50% 20%,#3a2416,#1a0f08 70%);color:var(--ink)}
-  .scroll{background:
-      linear-gradient(#0000,#0000),
-      radial-gradient(ellipse at top,#fbf0d4,var(--parchment) 60%,#e2cfa6 100%);
-    background-color:var(--parchment);
-    border:3px solid var(--edge);border-radius:14px;padding:2.4rem 2rem;max-width:400px;text-align:center;
-    box-shadow:0 0 0 6px #1a0f08, 0 14px 40px #000a;position:relative}
-  .scroll::before,.scroll::after{content:"❦";position:absolute;left:0;right:0;color:var(--edge);font-size:1.4rem}
-  .scroll::before{top:.5rem}.scroll::after{bottom:.4rem}
-  h1{font-size:1.3rem;margin:.6rem 0;letter-spacing:.02em}
-  p{line-height:1.5}
-  input{font-size:1.6rem;letter-spacing:.4em;text-align:center;width:100%;padding:.6rem;margin:1rem 0;box-sizing:border-box;
-    border:2px solid var(--edge);border-radius:8px;background:#fffdf5;color:var(--ink);font-family:inherit}
-  button{background:var(--wax);color:#f4e4c1;border:2px solid #5c1414;border-radius:8px;padding:.7rem 1.3rem;font-size:1rem;
-    cursor:pointer;font-family:inherit;box-shadow:0 3px 0 #5c1414;transition:transform .05s}
-  button:active{transform:translateY(2px);box-shadow:0 1px 0 #5c1414}
-  .note{font-size:.72rem;color:#7a6440;margin-top:1.4rem;font-style:italic}
-  .crest{font-size:2.4rem;margin-bottom:.2rem}
-  .step{display:none}.step.active{display:block}
+  :root {
+    --ink:      #3b2f21;
+    --ink-soft: #6b5a44;
+    --parchment:#e9dcc0;
+    --gild:     #9c7c3c;
+    --wax:      #7a2018;
+    --wax-dark: #571510;
+    --page:     #211a10;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    font-family: "EB Garamond", Georgia, serif;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    background-color: var(--page);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 39h40M39 0v40' fill='none' stroke='%23000' stroke-opacity='.12'/%3E%3C/svg%3E");
+  }
+
+  .card {
+    width: 100%;
+    max-width: 30rem;
+    background: var(--parchment);
+    border: 1px solid var(--gild);
+    outline: 1px solid rgba(0,0,0,.35);
+    outline-offset: 4px;
+    padding: 3rem 2.5rem 2.25rem;
+    box-shadow: 0 18px 45px rgba(0,0,0,.45);
+  }
+
+  h1 {
+    font-family: "Cinzel", serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin: 0 0 .35rem;
+    text-align: center;
+  }
+
+  /* Ornamental divider — a gilt rule with a centred lozenge, no emoji. */
+  .rule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    margin: 0 auto 1.4rem;
+    color: var(--gild);
+  }
+  .rule::before, .rule::after {
+    content: "";
+    height: 1px;
+    width: 3.5rem;
+    background: currentColor;
+  }
+  .rule span {
+    width: 6px;
+    height: 6px;
+    transform: rotate(45deg);
+    background: currentColor;
+  }
+
+  p { margin: 0 0 1.6rem; text-align: center; }
+
+  .field {
+    display: block;
+    width: 100%;
+    margin: 0 0 1.5rem;
+    padding: .7rem;
+    font-family: inherit;
+    font-size: 1.5rem;
+    letter-spacing: .5em;
+    text-align: center;
+    color: var(--ink);
+    background: #fbf5e6;
+    border: 1px solid var(--gild);
+  }
+  .field:focus { outline: 2px solid var(--wax); outline-offset: 1px; }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: .8rem 1rem;
+    font-family: "Cinzel", serif;
+    font-size: .95rem;
+    letter-spacing: .04em;
+    color: var(--parchment);
+    background: var(--wax);
+    border: 1px solid var(--wax-dark);
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .btn:hover  { background: var(--wax-dark); }
+  .btn:active { transform: translateY(1px); }
+
+  .note {
+    margin: 1.75rem 0 0;
+    font-size: .8rem;
+    font-style: italic;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  .step { display: none; }
+  .step.active { display: block; }
 </style>
-<div class="scroll">
-  <div class="step active" id="s1">
-    <div class="crest">🛡️</div>
-    <h1>Ye Royale Checkpointe</h1>
-    <p>Hark! None may pass save the certified Cool Knyght™. Art thou worthy?</p>
-    <button onclick="go('s2')">Aye, I am most cool</button>
-  </div>
-  <div class="step" id="s2">
-    <div class="crest">🐲</div>
-    <h1>Prove Thee No Goblin</h1>
-    <p>Selecteth every tile that harboureth existential dread, good sir.</p>
-    <button onclick="go('s3')">☑️ Every last one, forsooth</button>
-  </div>
-  <div class="step" id="s3">
-    <div class="crest">⚔️</div>
-    <h1>Slay Ye CAPTCHA Dragon</h1>
-    <p>Smite the beast until morale be improved.</p>
-    <button id="mash" onclick="mash()">⚔️ Strike! (0/5)</button>
-  </div>
-  <div class="step" id="s4">
-    <div class="crest">📜</div>
-    <h1>Sweare Ye Termes of Vibes</h1>
-    <p>By passing onward, thou dost pledge to be, at the least, chill.</p>
-    <button onclick="go('s5')">I sweare upon mine honour</button>
-  </div>
-  <div class="step" id="s5">
-    <div class="crest">🎺</div>
-    <h1>Humme Ye Secret Anthem</h1>
-    <p>Hum it aloud unto the royal minstrels. (There are no minstrels.)</p>
-    <button onclick="go('s6')">🎤 A rousing performance, onward</button>
-  </div>
-  <div class="step" id="s6">
-    <div class="crest">🗝️</div>
-    <h1>Inscribe Ye Sixe-Digit Sigil</h1>
-    <p>Consult thy authenticatour. (There is no sigil. Scrawl what thou wilt.)</p>
-    <input id="code" maxlength="6" inputmode="numeric" placeholder="000000" autocomplete="off">
-    <button onclick="verify()">Verifye</button>
-  </div>
-  <div class="step" id="s7">
-    <div class="crest">👑</div>
-    <h1>Thou Art Confirmed Noble</h1>
-    <p>Escorting thee to yonder safe haven…</p>
-  </div>
-  <p class="note">This scroll is but a jest. It sendeth naught anywhere and keepeth naught.</p>
-</div>
+</head>
+<body>
+  <main class="card">
+    <div class="step active" id="s1">
+      <h1>The King's Checkpoint</h1>
+      <div class="rule"><span></span></div>
+      <p>None may pass save the certified Cool Knight. Art thou worthy?</p>
+      <button class="btn" onclick="go('s2')">Aye, I am most cool</button>
+    </div>
+    <div class="step" id="s2">
+      <h1>Prove Thee No Goblin</h1>
+      <div class="rule"><span></span></div>
+      <p>Select every tile that harboureth existential dread, good sir.</p>
+      <button class="btn" onclick="go('s3')">Every last one, forsooth</button>
+    </div>
+    <div class="step" id="s3">
+      <h1>Slay the Captcha Dragon</h1>
+      <div class="rule"><span></span></div>
+      <p>Smite the beast until morale be improved.</p>
+      <button class="btn" id="mash" onclick="mash()">Strike! (0 of 5)</button>
+    </div>
+    <div class="step" id="s4">
+      <h1>Swear the Terms of Vibes</h1>
+      <div class="rule"><span></span></div>
+      <p>By passing onward, thou dost pledge to be, at the least, chill.</p>
+      <button class="btn" onclick="go('s5')">I swear upon mine honour</button>
+    </div>
+    <div class="step" id="s5">
+      <h1>Hum the Secret Anthem</h1>
+      <div class="rule"><span></span></div>
+      <p>Hum it aloud unto the royal minstrels. (There are no minstrels.)</p>
+      <button class="btn" onclick="go('s6')">A rousing performance, onward</button>
+    </div>
+    <div class="step" id="s6">
+      <h1>Inscribe the Six-Digit Sigil</h1>
+      <div class="rule"><span></span></div>
+      <p>Consult thy authenticator. (There is no sigil. Scrawl what thou wilt.)</p>
+      <input class="field" id="code" maxlength="6" inputmode="numeric" placeholder="000000" autocomplete="off">
+      <button class="btn" onclick="verify()">Verify</button>
+    </div>
+    <div class="step" id="s7">
+      <h1>Thou Art Confirmed Noble</h1>
+      <div class="rule"><span></span></div>
+      <p>Escorting thee to yonder safe haven&hellip;</p>
+    </div>
+    <p class="note">This page is but a jest. It sendeth naught anywhere and keepeth naught.</p>
+  </main>
+
 <script>
   // Pass the target as ?url=<full https link>. It is forwarded ONLY if its
   // host is one of these domains (or a subdomain). Anything else → DEFAULT.
@@ -104,7 +203,7 @@
     hits++;
     const b = document.getElementById('mash');
     if (hits >= 5){ go('s4'); return; }
-    b.textContent = `⚔️ Strike! (${hits}/5)`;
+    b.textContent = `Strike! (${hits} of 5)`;
   }
   function verify(){
     // Accepts anything. Nothing is read, sent, or saved.
@@ -112,3 +211,5 @@
     setTimeout(()=>location.href = destination(), 1500);
   }
 </script>
+</body>
+</html>
